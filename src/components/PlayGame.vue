@@ -17,6 +17,7 @@
         :ref="`card-${index}`"
         :card="{ index, value: card }"
         :cardsContext="cardsContext"
+        :flipping="flipping"
         @onFlip="checkRule($event)"
       />
     </div>
@@ -30,6 +31,7 @@ export default {
   data() {
     return {
       rules: [],
+      flipping: false,
     };
   },
   props: {
@@ -76,12 +78,15 @@ export default {
         this.rules.length === 2 &&
         this.rules[0].value !== this.rules[1].value
       ) {
+        this.flipping = true;
         setTimeout(() => {
           //close 2 cards
           this.$refs[`card-${this.rules[0].index}`][0].onFlipBackCard();
           this.$refs[`card-${this.rules[1].index}`][0].onFlipBackCard();
           //reset rules
           this.rules = [];
+          //reset is flipping
+          this.flipping = false;
         }, 800);
       } else return false;
     },

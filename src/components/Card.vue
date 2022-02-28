@@ -46,6 +46,10 @@ export default {
       type: String,
       require: true,
     },
+    flipping: {
+      type: Boolean,
+      default: false,
+    },
     card: {
       type: Object,
     },
@@ -65,6 +69,8 @@ export default {
   methods: {
     onToggleFlipped() {
       if (this.isDisabled) return false;
+      //check 2 cards are flipping
+      if (this.flipping) return false;
       this.isFlipped = !this.isFlipped;
       if (this.isFlipped) {
         this.$emit("onFlip", this.card);
