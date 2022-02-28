@@ -6,12 +6,19 @@
   <PlayGame
     v-if="statusMatch === 'play'"
     :cardsContext="settings.cardsContext"
+    @onFinished="onGetResult"
+  />
+  <ResultGame
+    v-if="statusMatch === 'result'"
+    :timer="timer"
+    @startAgain="onStartAgain"
   />
 </template>
 
 <script>
 import StartGame from "./components/StartGame.vue";
 import PlayGame from "./components/PlayGame.vue";
+import ResultGame from "./components/ResultGame.vue";
 import { shuffled } from "./utils/array";
 
 export default {
@@ -19,6 +26,7 @@ export default {
   components: {
     StartGame,
     PlayGame,
+    ResultGame,
   },
   data() {
     return {
@@ -28,6 +36,7 @@ export default {
         cardsContext: [],
         startedAt: null,
       },
+      timer: 0,
     };
   },
   methods: {
@@ -41,9 +50,18 @@ export default {
       const secondArrayCards = [...firstArrayCards];
       const arrayCards = [...firstArrayCards, ...secondArrayCards];
       this.settings.cardsContext = shuffled(shuffled(shuffled(arrayCards)));
-      this.settings.createdAt = new Date().getTime();
+      this.settings.startedAt = new Date().getTime();
 
       this.statusMatch = "play";
+    },
+    onGetResult() {
+      //get timer
+      this.timer = new Date().getTime() - this.settings.startedAt;
+      //switch screen
+      this.statusMatch = "result";
+    },
+    onStartAgain() {
+      this.statusMatch = "default";
     },
   },
 };
