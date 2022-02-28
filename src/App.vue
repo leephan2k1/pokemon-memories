@@ -1,26 +1,52 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <StartGame
+    v-if="statusMatch === 'default'"
+    @onStart="handleSelectModes($event)"
+  />
+  <PlayGame
+    v-if="statusMatch === 'play'"
+    :cardsContext="settings.cardsContext"
+  />
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import StartGame from "./components/StartGame.vue";
+import PlayGame from "./components/PlayGame.vue";
+import { shuffled } from "./utils/array";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    StartGame,
+    PlayGame,
+  },
+  data() {
+    return {
+      statusMatch: "default",
+      settings: {
+        totalCards: 0,
+        cardsContext: [],
+        startedAt: null,
+      },
+    };
+  },
+  methods: {
+    handleSelectModes(config) {
+      this.statusMatch = "play";
+      this.settings.totalCards = config.totalCards;
+      const firstArrayCards = Array.from(
+        { length: config.totalCards / 2 },
+        (v, i) => i + 1
+      );
+      const secondArrayCards = [...firstArrayCards];
+      const arrayCards = [...firstArrayCards, ...secondArrayCards];
+      this.settings.cardsContext = shuffled(shuffled(shuffled(arrayCards)));
+      this.settings.createdAt = new Date().getTime();
+
+      this.statusMatch = "play";
+    },
   },
 };
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang="scss"></style>

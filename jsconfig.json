@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "baseUrl": "./",
+    "target": "es6",
+    "module": "commonjs",
+    "baseUrl": "./src",
     "moduleResolution": "node",
     "paths": {
       "@/*": [
@@ -15,5 +15,5 @@
       "dom.iterable",
       "scripthost"
     ]
-  }
+  },
 }
