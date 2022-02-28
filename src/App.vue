@@ -13,12 +13,14 @@
     :timer="timer"
     @startAgain="onStartAgain"
   />
+  <FooterGame />
 </template>
 
 <script>
 import StartGame from "./components/StartGame.vue";
 import PlayGame from "./components/PlayGame.vue";
 import ResultGame from "./components/ResultGame.vue";
+import FooterGame from "./components/FooterGame.vue";
 import { shuffled } from "./utils/array";
 
 export default {
@@ -27,6 +29,7 @@ export default {
     StartGame,
     PlayGame,
     ResultGame,
+    FooterGame,
   },
   data() {
     return {
